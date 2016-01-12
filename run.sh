@@ -1,0 +1,14 @@
+#!/bin/sh
+
+
+if [ -n "$AUTH_HTPASSWD_ADMIN" ]; then
+
+  export REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=${REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY:-/var/lib/registry}
+  export REGISTRY_AUTH_HTPASSWD_PATH=${REGISTRY_AUTH_HTPASSWD_PATH:-${REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY}/htpasswd}
+  export REGISTRY_AUTH_HTPASSWD_REALM=${REGISTRY_AUTH_HTPASSWD_REALM:-"Registry Realm"}
+  export REGISTRY_AUTH="htpasswd"
+
+  /add-htpasswd.sh "admin" "$AUTH_PASSWORD"
+fi
+
+exec registry /etc/docker/registry/config.yml
